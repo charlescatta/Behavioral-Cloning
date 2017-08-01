@@ -34,13 +34,11 @@ def split_row(row, append_dict):
     center_angle = float(row[3])
     left_angle = center_angle + CORRECTION_FACTOR 
     right_angle = center_angle - CORRECTION_FACTOR
-    append_dict.update(
-        {
-            left_img: left_angle,
-            center_img: center_angle,
-            right_img: right_angle
-        }
-    )
+    append_dict.update({
+        left_img: left_angle,
+        center_img: center_angle,
+        right_img: right_angle
+    })
 
 def data_gen(dataset):
     for example in dataset.items():
@@ -106,4 +104,10 @@ print(model.summary())
 
 model.compile(optimizer="adam", loss="mse")
 
-model.fit_generator(training_generator, BATCH_SIZE, validation_data=validation_generator, validation_steps=int(BATCH_SIZE*VALIDATION_SPLIT), shuffle=True, epochs=N_EPOCHS, verbose=1)
+model.fit_generator(training_generator, 
+                    BATCH_SIZE, 
+                    validation_data=validation_generator, 
+                    validation_steps=int(BATCH_SIZE*VALIDATION_SPLIT), 
+                    shuffle=True, 
+                    epochs=N_EPOCHS, 
+                    verbose=1)
