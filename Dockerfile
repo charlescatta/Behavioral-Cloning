@@ -1,5 +1,7 @@
+# Use images provided by Nvida with CUDA and CUDNN preinstalled
 FROM nvidia/cuda:8.0-cudnn5-runtime-ubuntu16.04
 
+# These are apparently tensorflow deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         curl \
@@ -22,7 +24,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# upgrade pip install setuptools
+# Upgrade pip and install setuptools
 RUN pip3 install --upgrade pip setuptools
 
 # Install scipy packages
@@ -36,18 +38,18 @@ RUN pip3 install --no-cache-dir numpy \
         sympy \
         nose
 
+# Install tensorflow with GPU support and keras
 RUN pip3 install --no-cache-dir tensorflow-gpu keras
 
-
-
-# workdir
-RUN mkdir /workdir
-WORKDIR "/workdir"
+# Setup our workdir
+RUN mkdir /src
+WORKDIR "/src"
 
 # For CUDA profiling, TensorFlow requires CUPTI.
 ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 
 # TensorBoard
 EXPOSE 6006
+
 # Flask Server
 EXPOSE 4567
