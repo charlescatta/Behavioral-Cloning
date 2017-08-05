@@ -20,7 +20,6 @@ cd Behavioral-Cloning
 
 nvidia-docker run -it --rm -v `pwd`:/workdir madhorse/behavioral-cloning python3 model.py
 ```
---
 
 ## Model Architecture
 
