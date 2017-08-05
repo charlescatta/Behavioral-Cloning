@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libpng12-dev \
         libzmq3-dev \
         pkg-config \
-	python \
+	      python3 \
         python3-dev \
         python3-pip \
         libcupti-dev \ 
@@ -18,8 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         unzip \
         libgtk2.0-0 \
         git \
-	tcl-dev \
-	tk-dev \	
+	      tcl-dev \
+	      tk-dev \
         && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -36,7 +36,8 @@ RUN pip3 install --no-cache-dir numpy \
         jupyter \
         pandas \
         sympy \
-        nose
+        nose \
+        h5py
 
 # Install tensorflow with GPU support and keras
 RUN pip3 install --no-cache-dir tensorflow-gpu keras
