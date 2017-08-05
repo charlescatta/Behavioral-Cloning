@@ -27,9 +27,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Upgrade pip and install setuptools
 RUN pip3 install --upgrade pip setuptools
 
-# Install scipy packages
+# Install scipy packages and some utils
 RUN pip3 install --no-cache-dir numpy \
-        socketio \
+        Pillow \
+        Flask \  
+        python-socketio \
         moviepy \
         scipy \
         opencv-python \
