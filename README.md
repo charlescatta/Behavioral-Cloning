@@ -18,7 +18,7 @@ git clone https://github.com/Charles-Catta/Behavioral-Cloning.git
 
 cd Behavioral-Cloning
 
-nvidia-docker run -it --rm -v `pwd`:/workdir madhorse/behavioral-cloning python3 model.py
+nvidia-docker run -it --rm -v `pwd`:/src madhorse/behavioral-cloning python3 model.py
 ```
 
 ## Model Architecture
