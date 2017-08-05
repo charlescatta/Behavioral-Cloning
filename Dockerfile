@@ -3,6 +3,7 @@ FROM nvidia/cuda:8.0-cudnn5-runtime-ubuntu16.04
 
 # These are apparently tensorflow deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
+        netbase \
         build-essential \
         curl \
         libfreetype6-dev \
@@ -30,6 +31,7 @@ RUN pip3 install --upgrade pip setuptools
 # Install scipy packages and some utils
 RUN pip3 install --no-cache-dir numpy \
         Pillow \
+        eventlet \
         Flask \  
         python-socketio \
         moviepy \

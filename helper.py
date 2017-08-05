@@ -145,10 +145,9 @@ class CSVImageDataGen(object):
         Get the shape of the first image in the data, useful to give info about input size to the model
         :returns: A (img_height, img_width, img_depth) tuple
         """
-        if not self.img_shape:
-            return self._get_img(self.training_data[0][0]).shape
-        else:
-            return self.img_shape
+        if not hasattr(self, 'img_shape'):
+            self.img_shape = self._get_img(self.training_data[0][0]).shape
+        return self.img_shape
 
 
     def training_generator(self):
