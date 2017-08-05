@@ -1,2 +1,6 @@
 .DS_Store
 data
+train.csv
+validation.csv
+__pycache__
+
