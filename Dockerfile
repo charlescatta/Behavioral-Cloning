@@ -29,6 +29,8 @@ RUN pip3 install --upgrade pip setuptools
 
 # Install scipy packages
 RUN pip3 install --no-cache-dir numpy \
+        socketio \
+        moviepy \
         scipy \
         opencv-python \
         matplotlib \
