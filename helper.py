@@ -6,6 +6,9 @@ from random import shuffle
 class CSVPreprocessor(object):
     """
     Class that processes the csv file from the simulator into a dataset ready format
+        the simulator outputs one angle for three image paths, this class uses a defined 
+        correction_factor in order to have a one image to one angle pairing which we can split 
+        into training and validation data of the form (X, y) or (training image, ground truth)
     """
     def __init__(self, input_csv, correction_factor=0, validation_split=0):
         """
@@ -89,7 +92,17 @@ class CSVPreprocessor(object):
         return (training_output, validation_output) 
 
 class CSVImageDataGen(object):
-    def __init__(self, training_csv, validation_csv, img_dir="", batch_size=64):
+    """
+    Class used to parse and give out well formatted training and validation data, it does so through
+        generators for memory efficiency. The input data needs to be given through a csv file preprocessed by 
+        the CSVPreprocessor class
+    """
+    def __init__(self, training_csv, validation_csv, img_dir=""):
+        """
+        :param img_dir: Directory where the image files list in the csv files are located
+        :param training_csv: Path to the training data csv file 
+        :param validation_csv: Path to the validation csv file 
+        """
         self.img_dir= img_dir
         self.training_data = self._csv_to_array(training_csv)
         self.validation_data = self._csv_to_array(validation_csv)
@@ -101,7 +114,6 @@ class CSVImageDataGen(object):
         """
         Load the image from a specified path
         :param filename: Path of the image to load
-        :param top_path: Path of the directory of the data (Optional)
         :returns: Image as a numpy array
         """
         return cv2.imread(self.img_dir + filename)
@@ -109,9 +121,9 @@ class CSVImageDataGen(object):
 
     def _csv_to_array(self, csv_file):
         """
-        Loads a preprocessed csv file to RAM as an iterable of image filename and associated angle
+        Returns a preprocessed csv as a list of lists where each list is a filepath and groundtruth pairing
         :param csv_file: Path of preprocessed csv file 
-        :returns: Array of arrays (filename, angle)
+        :returns: List of Lists [ filename, angle ]
         """
         with open(csv_file, "r") as f:
             reader = csv.reader(f)
@@ -119,19 +131,39 @@ class CSVImageDataGen(object):
 
     
     def read_row(self, row):
+        """
+        Reads a [filename, angle] row and returns a (Image, groundtruth) pair usable by Keras
+        :param row: Row to read 
+        :returns: An (X, y) tuple where X is the image to feed to the model and y is the ground truth to train the model
+        """
         X = np.expand_dims(self._get_img(row[0]), axis=0)
         y = np.array([row[1]])
         return (X, y)
 
     def get_img_shape(self):
-        return self._get_img(self.training_data[0][0]).shape
+        """
+        Get the shape of the first image in the data, useful to give info about input size to the model
+        :returns: A (img_height, img_width, img_depth) tuple
+        """
+        if not self.img_shape:
+            return self._get_img(self.training_data[0][0]).shape
+        else:
+            return self.img_shape
 
 
     def training_generator(self):
+        """
+        Generator which yields one training example at a time from the training dataset
+        :yields: A training example as an (X, y) tuple
+        """
         for example in self.training_data:
             yield self.read_row(example) 
    
 
     def validation_generator(self):
+        """
+        Generator which yields one validation example at a time from the training dataset
+        :yields: A validation example as an (X, y) tuple
+        """
         for example in self.validation_data:
             yield self.read_row(example) 

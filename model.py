@@ -16,15 +16,17 @@ LEARNING_RATE = 0.0009
 BATCH_SIZE = 32 
 VALIDATION_SPLIT = 0.20
 KEEP_RATE = 0.75
+MODEL_NAME = "behavior_cloning-EPOCHS-{}-LEARN_RATE_{}".format(N_EPOCHS, LEARNING_RATE)
 
-from tensorflow.python.client import device_lib
-print(device_lib.list_local_devices())
-
+# Instantiate preprocessor to process our csv data
 preprocessor = CSVPreprocessor(CSV_PATH, correction_factor=CORRECTION_FACTOR, validation_split=VALIDATION_SPLIT) 
+
+# Call the preprocessor and get the new training and validation data
 training_csv, validation_csv = preprocessor.preprocess()
 
-generator = CSVImageDataGen(training_csv, validation_csv, img_dir=IMG_PATH)
-img_shape = generator.get_img_shape() 
+# Get our image generator object
+image_generator = CSVImageDataGen(training_csv, validation_csv, img_dir=IMG_PATH)
+img_shape = image_generator.get_img_shape() 
 
 """
 Define our model, based on a paper from Nvidia
@@ -53,12 +55,17 @@ model = Sequential([
 print("\t\t\t MODEL SUMMARY")
 print(model.summary())
 
+# Define our model optimizer to have a custom learning rate
 optimizer = Adam(lr=LEARNING_RATE)
 model.compile(optimizer=optimizer, loss="mse")
 
-model.fit_generator(generator.training_generator(), 
+# Train our model with generators from our image_generator
+model.fit_generator(image_generator.training_generator(),
                     BATCH_SIZE, 
-                    validation_data=generator.validation_generator(), 
+                    validation_data=image_generator.validation_generator(), 
                     nb_val_samples=int(BATCH_SIZE*VALIDATION_SPLIT), 
                     nb_epoch=N_EPOCHS, 
                     verbose=1)
+
+# Save our model to disk
+model.save(MODEL_NAME)
