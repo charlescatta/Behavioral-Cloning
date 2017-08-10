@@ -1,8 +1,8 @@
 # Behavioral Cloning 🚔
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
-<div style="align: center">
-![driving demo](driving.gif)
+<div style="text-align: center">
+   <img src="driving.gif">
 </div>
 
 This project uses a Convolutional Neural Network model to attemp to learn how to drive a car in a simulator by trying to replicate the same driving behaviour. The model is only fed 3 image streams from 3 cameras on the car and the current steering wheel angle. No other data is given by the simulator.
