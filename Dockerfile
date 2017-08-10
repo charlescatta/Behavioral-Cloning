@@ -30,6 +30,7 @@ RUN pip3 install --upgrade pip setuptools
 
 # Install scipy packages and some utils
 RUN pip3 install --no-cache-dir numpy \
+        sklearn \
         Pillow \
         eventlet \
         Flask \  
@@ -55,8 +56,12 @@ WORKDIR "/src"
 # For CUDA profiling, TensorFlow requires CUPTI.
 ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 
+COPY jupyter_notebook_config.py /root/.jupyter/
 # TensorBoard
 EXPOSE 6006
 
 # Flask Server
 EXPOSE 4567
+
+# Jupyter notebook
+EXPOSE 8888
