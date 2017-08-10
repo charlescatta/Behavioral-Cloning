@@ -1,9 +1,9 @@
 # Behavioral Cloning
 
+![driving demo](driving.gif)
 
 
-
-This project uses a Convolutional Neural Network model to attemp to learn how to drive a car in a simulator based on the data of a human driving the car.
+This project uses a Convolutional Neural Network model to attemp to learn how to drive a car in a simulator by trying to replicate the same driving behaviour. The model is only fed 3 image streams from 3 cameras on the car and the current steering wheel angle. No other data is given by the simulator.
 
 ## Simulator
 
@@ -15,8 +15,10 @@ The car simulator used to gather training data is made by Udacity for their [Sel
 
 ## Running the neural network
 
-
-
+```sh
+nvidia-docker run -it --rm -v `pwd`:/src madhorse/behavioral-cloning python3 drive.py Nvidia_Drive-LR0.001-EPOCHS10-DP0.15
+```
+open your simulator and go in Autonomous Mode
 
 ## Running training
 
@@ -24,15 +26,15 @@ To run training on the model, use [nvidia-docker](https://github.com/NVIDIA/nvid
 use the following commands:
 
 ```sh
+git clone https://github.com/Charles-Catta/Behavioral-Cloning.git
+
+cd Behavioral-Cloning
+
 wget https://d17h27t6h515a5.cloudfront.net/topher/2016/December/584f6edd_data/data.zip
 
 unzip data.zip
 
 rm data.zip
-
-git clone https://github.com/Charles-Catta/Behavioral-Cloning.git
-
-cd Behavioral-Cloning
 
 nvidia-docker run -it --rm -v `pwd`:/src madhorse/behavioral-cloning python3 model.py
 ```
@@ -43,5 +45,5 @@ nvidia-docker run -it --rm -v `pwd`:/src madhorse/behavioral-cloning python3 mod
 
 The model architecture for this project is based on Nvidia's paper on [_End to end learning for self-driving cars_](http://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf)
 
-
+All of the data preprocessing steps are outlined in the [Jupyter notebook](Behavioral_Cloning.ipynb)
 
