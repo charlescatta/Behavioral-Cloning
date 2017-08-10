@@ -1,4 +1,4 @@
-# Behavioral Cloning
+# Behavioral Cloning 🚔
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 ![driving demo](driving.gif)
@@ -8,7 +8,7 @@ This project uses a Convolutional Neural Network model to attemp to learn how to
 
 ----
 
-## Simulator
+### Simulator
 
 The car simulator used to gather training data is made by Udacity for their [Self-Driving Car Nanodegree](https://www.udacity.com/drive) program, download it here:
 
@@ -16,14 +16,14 @@ The car simulator used to gather training data is made by Udacity for their [Sel
 
 
 
-## Running the neural network
+### Running the neural network
 
 ```sh
 nvidia-docker run -it --rm -v `pwd`:/src madhorse/behavioral-cloning python3 drive.py Nvidia_Drive-LR0.001-EPOCHS10-DP0.15
 ```
 open your simulator and go in Autonomous Mode
 
-## Running training
+### Running training
 
 To run training on the model, use [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) in order to train on the GPU,
 use the following commands:
@@ -43,7 +43,7 @@ nvidia-docker run -it --rm -v `pwd`:/src madhorse/behavioral-cloning python3 mod
 ```
 
 
-## Model Architecture
+### Model Architecture
 
 ![Model Architecture](img/model.png)
 
