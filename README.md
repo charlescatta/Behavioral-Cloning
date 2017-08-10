@@ -20,7 +20,7 @@ The car simulator used to gather training data is made by Udacity for their [Sel
 ### Running the neural network
 
 ```sh
-nvidia-docker run -it --rm -v `pwd`:/src madhorse/behavioral-cloning python3 drive.py Nvidia_Drive-LR0.001-EPOCHS10-DP0.15
+nvidia-docker run ip 4567:4567 -it --rm -v `pwd`:/src madhorse/behavioral-cloning python3 drive.py Nvidia_Drive-LR0.001-EPOCHS10-DP0.15
 ```
 open your simulator and go in Autonomous Mode
 
