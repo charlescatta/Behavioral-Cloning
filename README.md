@@ -1,7 +1,5 @@
 # Behavioral Cloning 🚔
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
-
-[![Docker Automated build](https://img.shields.io/docker/automated/madhorse/behavioral-cloning.svg)](https://hub.docker.com/r/madhorse/behavioral-cloning/)
+[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive) [![Docker Automated build](https://img.shields.io/docker/automated/madhorse/behavioral-cloning.svg)](https://hub.docker.com/r/madhorse/behavioral-cloning/)
 
 <p align="center">
    <img src="driving.gif">
