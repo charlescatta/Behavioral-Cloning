@@ -10,6 +10,7 @@ This project uses a _Convolutional Neural Network to attempt_ to learn how to dr
 The Neural Net is fed three image streams from cameras fixed on the car and the current steering angle during training.
 
 After training the model is able to send appropriate steering angles to the car in order for it to stay on the track.
+
 ----
 
 ### Simulator
