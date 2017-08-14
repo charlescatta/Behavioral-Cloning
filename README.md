@@ -5,7 +5,7 @@
    <img src="driving.gif">
 </p>
 
-This project uses a _Convolutional Neural Network to attempt_ to learn how to drive a car in a simulator by trying to replicate the driving behaviour of a human player. 
+This project uses a _Convolutional Neural Network_ to attempt to learn how to drive a car in a simulator by trying to replicate the driving behaviour of a human player. 
 
 The Neural Net is fed three image streams from cameras fixed on the car and the current steering angle during training.
 
