@@ -5,8 +5,11 @@
    <img src="driving.gif">
 </p>
 
-This project uses a Convolutional Neural Network model to attemp to learn how to drive a car in a simulator by trying to replicate the same driving behaviour. The model is only fed 3 image streams from 3 cameras on the car and the current steering wheel angle. No other data is given by the simulator.
+This project uses a _Convolutional Neural Network to attempt_ to learn how to drive a car in a simulator by trying to replicate the driving behaviour of a human player. 
 
+The Neural Net is fed three image streams from cameras fixed on the car and the current steering angle during training.
+
+After training the model is able to send appropriate steering angles to the car in order for it to stay on the track.
 ----
 
 ### Simulator
@@ -19,10 +22,11 @@ The car simulator used to gather training data is made by Udacity for their [Sel
 
 ### Running the neural network
 
+To run the neural net, use [docker](https://store.docker.com/search?type=edition&offering=community)
 ```sh
-docker run 4567:4567 -it --rm -v `pwd`:/src madhorse/behavioral-cloning python3 drive.py model.h5
+docker run -p 4567:4567 -it --rm -v `pwd`:/src madhorse/behavioral-cloning python3 drive.py model.h5
 ```
-open your simulator and go in Autonomous Mode
+open your simulator and go in Autonomous Mode, this allows the neural net to recieve images and send steering angles.
 
 ### Running training
 
