@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Behavioral Cloning Writeup</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+<style>
+.center-media {
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
+}
+.center-media > video, img {
+  width: 100%;
+}
+</style>
+</head>
+<body><div class="container"><h1 id="behavioral-cloning"><strong>Behavioral Cloning</strong></h1>
+
+<hr>
+
+<p>The goals / steps of this project are the following:</p>
+
+<ul>
+<li>Use the simulator to collect data of good driving behavior</li>
+<li>Build, a convolution neural network in Keras that predicts steering angles from images</li>
+<li>Train and validate the model with a training and validation set</li>
+<li>Test that the model successfully drives around track one without leaving the road</li>
+<li>Summarize the results with a written report</li>
+</ul>
+
+<hr>
+
+
+
+<h3 id="video">Video</h3>
+
+<div class="center-media">
+  <video autoplay controls src="https://lh3.googleusercontent.com/BumKlNZFs-jQbxWGpdqr0fxK6rsWJInZLf0p9DPH_FnGukorsCHbKi4Nk3SSoRYK8_0I79jPCRE=m18" />
+</div>
+
+<hr>
+
+<h3 id="files-submitted-code-quality">Files Submitted &amp; Code Quality</h3>
+
+<p>My submission includes all the required files except for the fact that my <em>model.py</em> file is actually a jupyter notebook. I found the use of jupyter notebook to be quintessential in the exploration and manipulation of data during the dataset preprocessing step.</p>
+
+<p>The code is fairly straightforward except for some of the calls to the pandas API, they have explanation comments as a result.</p>
+
+
+
+<h3 id="model-architecture-and-training-strategy">Model Architecture and Training Strategy</h3>
+
+
+
+<h4 id="1-model-architecture">1. Model architecture</h4>
+
+<p>My model architecture is as follows:</p>
+
+<table>
+<thead>
+<tr>
+  <th>Layer</th>
+  <th>Output Shape</th>
+  <th align="right">Params</th>
+</tr>
+</thead>
+<tbody><tr>
+  <td>Cropping</td>
+  <td>(80, 320, 3)</td>
+  <td align="right">0</td>
+</tr>
+<tr>
+  <td>Normalization</td>
+  <td>(80, 320, 3)</td>
+  <td align="right">0</td>
+</tr>
+<tr>
+  <td>Max Pooling (2x2)</td>
+  <td>(40, 160, 3)</td>
+  <td align="right">0</td>
+</tr>
+<tr>
+  <td>Convolution (5x5)</td>
+  <td>(36, 156, 24)</td>
+  <td align="right">1824</td>
+</tr>
+<tr>
+  <td>Convolution (5x5)</td>
+  <td>(32, 152, 36)</td>
+  <td align="right">21636</td>
+</tr>
+<tr>
+  <td>Max Pooling (2x2)</td>
+  <td>(16, 76, 36)</td>
+  <td align="right">0</td>
+</tr>
+<tr>
+  <td>Convolution (5x5)</td>
+  <td>(12, 72, 48)</td>
+  <td align="right">43248</td>
+</tr>
+<tr>
+  <td>Convolution (3x3)</td>
+  <td>(10, 70, 64)</td>
+  <td align="right">27712</td>
+</tr>
+<tr>
+  <td>Max Pooling (2x2)</td>
+  <td>(5, 35, 64)</td>
+  <td align="right">0</td>
+</tr>
+<tr>
+  <td>Convolution (3x3)</td>
+  <td>(3, 33, 64)</td>
+  <td align="right">36928</td>
+</tr>
+<tr>
+  <td>Max Pooling (2x2)</td>
+  <td>(1, 16, 64)</td>
+  <td align="right">0</td>
+</tr>
+<tr>
+  <td>Flatten</td>
+  <td>1024</td>
+  <td align="right">0</td>
+</tr>
+<tr>
+  <td>Fully Connected (100)</td>
+  <td>100</td>
+  <td align="right">102500</td>
+</tr>
+<tr>
+  <td>Dropout</td>
+  <td>100</td>
+  <td align="right">0</td>
+</tr>
+<tr>
+  <td>Fully Connected (50)</td>
+  <td>50</td>
+  <td align="right">5050</td>
+</tr>
+<tr>
+  <td>Dropout</td>
+  <td>50</td>
+  <td align="right">0</td>
+</tr>
+<tr>
+  <td>Fully Connected (10)</td>
+  <td>10</td>
+  <td align="right">510</td>
+</tr>
+<tr>
+  <td>Dropout</td>
+  <td>10</td>
+  <td align="right">0</td>
+</tr>
+<tr>
+  <td>Fully Connected (1)</td>
+  <td>1</td>
+  <td align="right">11</td>
+</tr>
+</tbody></table>
+
+
+<p>I based my architecture on <a href="https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf">Nvidia’s paper on the problem</a>. Getting the amount of parameters right was tricky, I often heavily overfitted to my training data only to find out that the amount of trainable parameters of my model was in the 15 million range. This model has proven to be very successful, I have tried using different architectures heavily based on LeNet but did not find them to be reliable enough to finish a full track. </p>
+
+
+
+<h4 id="2-overfitting-reduction">2. Overfitting reduction</h4>
+
+<p>In an attempt to reduce overfitting, I used a lower than default learning rate for my model’s optimizer and added a few max pooling layers in order to heavily reduce the amount of trainable parameters. </p>
+
+<p>The use of a few dropout layers in the fully connected layers also helped reduce overfitting further.</p>
+
+
+
+<h4 id="3-parameter-tuning">3. Parameter tuning</h4>
+
+<p>Hyperparameter tuning was done using trial and error. The model’s parameters were trained using an Adam optimizer with a custom and manually tuned learning rate.</p>
+
+
+
+<h4 id="4-training-data">4. Training data</h4>
+
+<p>Gathering the right kind of training data proved to be difficult, using only a mouse made it difficult to drive the car and trying to connect an xbox one controller to a Mac running the simulator didn’t work. I tried training multiple neural nets using only the data I collected, but they all made the car drive off the track.</p>
+
+<p>Adding the supplied dataset from the project files made my neural network architecture into a very usable predictive model for steering angles.</p>
+
+<h3 id="model-architecture-and-training-strategy-1">Model Architecture and Training Strategy</h3>
+
+
+
+<h4 id="1-solution-design-approach">1. Solution Design Approach</h4>
+
+<p>My initial strategy for finding a model architecture was to try different architectures based on what I had learned in previous lessons. Messing around with different architectures helped me build an intuition of how gradients flowed through neural networks as well as how parameter tuning is quintessential.</p>
+
+<p>After having tried LeNet-type architectures with different parameters and architecture details, I kept getting consistently worst results. Some data tweaking later I started getting more convincing results but still was not able to drive a full lap around the track. </p>
+
+<p>In the interest of time, I finally decided to base my architecture on an existing research on the problem.</p>
+
+<h4 id="2-final-model-architecture">2. Final Model Architecture</h4>
+
+<p>The final model architecture is based on Nvidia’s paper on <a href="https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf"><em>End to End Learning for Self-Driving Cars</em></a>. </p>
+
+<p class="center-media"><img src="img/model.png" alt="model" title=""></p>
+
+<h4 id="3-creation-of-the-training-set-training-process">3. Creation of the Training Set &amp; Training Process</h4>
+
+<p>To create a usable dataset, I first collected all of my training data into a single directory. I used data visualization tools to get an idea of what my data consisted of. If we look at the original density of steering angles in our dataset, we can see a problem:</p>
+
+<p class="center-media"><img src="img/angle_density_b4_preprocess.png" alt="density before preprocessing" title=""></p>
+
+<p>There is massively more data with a 0 degree steering angle. This will introduce a large bias in our predictive model, we must therefore try our best to reduce that bias. I did that by randomly choosing 90% of our data with a steering angle of 0 and removed it from our dataset. Our new steering angles density looks like this:</p>
+
+<p class="center-media"><img src="img/angle_density_after_preprocess.png" alt="density after preprocessing" title=""></p>
+
+<p>As we can see the amount of 0 degree steering data is down to almost the same density as other steering angles. There is a slight bias introduced in our predictive model by the slightly higher amount of 0 degree angles in our training data, but that is actually beneficial as we are going straight a large amount of the time.</p>
+
+<p>Afterwards I flattened the dataset to a large amount of image, steering angle pairing by taking the left and right images and adding our subtracting a correction factor found by trial and error.</p>
+
+<p>I then randomly shuffled and split the dataset and made an infinite batch generator for both the training and validation dataset.</p>
+
+<p>Training with a lower learning rate for longer epochs gave me better results and reduced the car’s weaving.</p>
+
+<p>I tried running the model on the second track, it failed almost immediately, this shows that the current predictive model greatly overfit to the current track most probably due to a lack of diversity in our current dataset. </p>
+
+<h3 id="future-improvements">Future improvements</h3>
+
+<p>A lot of improvements and experimentations is possible for this model, a few of them are:</p>
+
+<ul>
+<li>Use a validation dataset that comes from a different track than the one it was trained on</li>
+<li>Use data augmentation (image, angle flipping) to have more data</li>
+<li>Diversify our dataset with real world data or data from a different track, try gathering data from different quality settings in the simulator</li>
+<li>Attempt a reinforcement learning approach to the problem as described in <a href="http://cs231n.stanford.edu/reports/2016/pdfs/112_Report.pdf">this paper</a></li>
+<li>Use different optimizer-level techniques such as L2 regularization and learning rate decay</li>
+</ul>
+
+
+
+<h4 id="return-to-github"><a href="https://github.com/Charles-Catta/Behavioral-Cloning">&lt;&lt;  Return to GitHub</a></h4></div></body>
+</html>
