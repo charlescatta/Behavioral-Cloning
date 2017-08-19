@@ -57,3 +57,4 @@ The model architecture for this project is based on Nvidia's paper on [_End to e
 
 All of the data preprocessing steps are outlined in the [Jupyter notebook](https://nbviewer.jupyter.org/github/Charles-Catta/Behavioral-Cloning/blob/master/Behavioral_Cloning.ipynb)
 
+Read the [writeup](https://htmlpreview.github.io/?https://github.com/Charles-Catta/Behavioral-Cloning/blob/master/writeup.html)
