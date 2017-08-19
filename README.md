@@ -2,7 +2,7 @@
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive) [![Docker Automated build](https://img.shields.io/docker/automated/madhorse/behavioral-cloning.svg)](https://hub.docker.com/r/madhorse/behavioral-cloning/)
 
 <p align="center">
-   <img src="driving.gif">
+   <img src="img/driving.gif">
 </p>
 
 This project uses a _Convolutional Neural Network_ to attempt to learn how to drive a car in a simulator by trying to replicate the driving behaviour of a human player. 
